@@ -1,0 +1,30 @@
+(REQUEST INICIAL){
+
+	RESTORE VIEW 						> 1 - RECUPERAR OS ITENS DA Ã�RVORE DA SESSÃƒO
+	
+	(SEM ERROS XHTML){
+	
+		(REQUEST){
+			APPLY REQUEST VALUES		> 2 - PEGA OS VALORES DO REQUEST
+			
+			(NAO Ã‰ LINK IMMEDIATE){
+			
+				PROCESS VALIDATION			> 3 - CONVERSÃ•ES E VALIDAÃ‡Ã•ES
+				
+				(SEM ERROS DE VALIDACAO){
+					UPDATE MODEL VALUES		> 4 - APLICAR OS VALORES NO MODELO
+					INVOKE APPLICATION		> 5 - AÃ‡ÃƒO DEFINIDA EM EXPRESSION LANGUAGE
+				}
+			}
+		}
+	
+		RENDER RESPONSE					> 6 - RESPOSTA DO REQUEST 
+	}
+	
+}
+
+-- pattern composite view
+
+-- ids X objetos (remover)
+-- http://www.primefaces.org/showcase-ext/sections/imageAreaSelect/basicSelection.jsf
+

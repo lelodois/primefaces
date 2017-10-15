@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:define name="body">
+		<f:metadata>
+			<f:viewParam name="codigo" value="#{beanProduto.codigo}" />
+			<f:viewAction action="#{beanProduto.loadByCodigo()}" if="#{param.codigo != null}" />
+		</f:metadata>
+		<p:accordionPanel multiple="false" id="accordion">
+			<p:tab title="Novo Produto" id="tabProduto">
+				<h:form id="produtoForm">
+					<p:growl autoUpdate="true" globalOnly="false"/>
+					
+					<p:panelGrid columns="4" styleClass="ui-noborder">
+						<p:outputLabel value="Código: " for="txtCodigo" />
+						<p:inputText id="txtCodigo" value="#{beanProduto.model.codigo}"  required="true"  readonly="true"/>
+						<p:outputLabel value="Comprador:" for="selComprador" />
+						<p:selectOneMenu id="selComprador" value="#{beanProduto.model.comprador.id}" style="width:150px;" required="true">
+							<f:selectItem />
+							<f:selectItems value="#{beanLists.listAllComprador()}" var="comprador" itemLabel="#{comprador.nome}"
+								itemValue="#{comprador.id}" />
+						</p:selectOneMenu>
+						<p:outputLabel value="Nome: " for="txtNome" />
+						<p:inputText id="txtNome" value="#{beanProduto.model.nome}" required="true" />
+						<p:outputLabel value="Fornecedor:" for="selFornecedor" />
+						<p:selectOneMenu id="selFornecedor" value="#{beanProduto.model.fornecedor.id}"  style="width:150px;" required="true">
+							<f:selectItem />
+							<f:selectItems value="#{beanLists.listAllFornecedor()}" var="fornecedor" itemLabel="#{fornecedor.nome}"
+								itemValue="#{fornecedor.id}" />
+						</p:selectOneMenu>
+		 			</p:panelGrid> 
+		 			<p:panel>
+						<p:pickList id="selFiliais" labelDisplay="true" responsive="true"  value="#{beanProduto.filiais}" var="filial" itemLabel="#{filial}" itemValue="#{filial}" />
+					</p:panel>
+					<p:panelGrid columns="1" styleClass="ui-noborder">
+			 			<p:commandButton value="Salvar" icon="fa fa-save" action="#{beanProduto.save()}" update="accordion:produtoForm :accordion:tableProdutoForm"
+							process="accordion:produtoForm" /> 
+					</p:panelGrid>
+				</h:form>
+			</p:tab>
+			<p:tab title="Produtos Existentes" id="tabProdutoTable">
+				<h:form id="tableProdutoForm" style="margin-top:20px;">
+					<p:dataTable value="#{beanProduto.listAll()}" var="produtoIndex" paginator="true" rowsPerPageTemplate="10">
+						<p:column headerText="Ações">
+							<p:commandButton icon="fa fa-dollar" action="#{beanPoupupNovoPreco.onShowAdicionarPreco(produtoIndex)}" update="@none" process="@this">
+								<p:ajax event="dialogReturn" listener="#{beanPoupupNovoPreco.onCloseAdicionarPreco}" process="@this" update=":accordion:tableProdutoForm" />
+							</p:commandButton>
+							<p:spacer width="3px;"/>
+							<p:commandButton icon="fa fa-futbol-o" action="#{beanPoupupNovoPreco.onShowAdicionarPrecoByFilial(produtoIndex)}"
+								rendered="#{produtoIndex.precoBase > 0}" update=":accordion:tableProdutoForm" process="@this">
+								<p:ajax event="dialogReturn" listener="#{beanPoupupNovoPreco.onCloseAdicionarPrecoByFilial}" process="@this" update=":accordion:tableProdutoForm" />
+							</p:commandButton>
+							<p:spacer width="3px;"/>
+							<p:commandButton icon="fa fa-edit" action="#{beanProduto.load(produtoIndex)}" update="accordion:produtoForm" />
+							<p:spacer width="3px;"/>
+							<p:commandButton icon="fa fa-trash" action="#{beanTableModels.remove(produtoIndex)}" update=":accordion:tableProdutoForm">
+								<p:confirm header="Confirmação" message="Deseja excluir este produto?" icon="fa fa-flash" />
+							</p:commandButton>
+						</p:column>
+						<p:column headerText="Código do Produto" sortBy="#{produtoIndex.codigo}">
+							<p:outputLabel value="#{produtoIndex.codigo}" />
+						</p:column>
+						<p:column headerText="Nome" sortBy="#{produtoIndex.nome}" filterBy="#{produtoIndex.nome}" filterMatchMode="contains">
+							<p:outputLabel value="#{produtoIndex.nome}" />
+						</p:column>
+						<p:column headerText="Comprador" sortBy="#{produtoIndex.comprador.nome}">
+							<p:outputLabel value="#{produtoIndex.comprador.nome}" />
+						</p:column>
+						<p:column headerText="Preço Base" sortBy="#{produtoIndex.precoBase}">
+							<p:outputLabel value="#{produtoIndex.precoBase}" />
+						</p:column>
+						<p:column headerText="Data de cadastro" sortBy="#{produtoIndex.dataCadastro}">
+							<p:outputLabel value="#{produtoIndex.dataCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
+							</p:outputLabel>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:tab>
+		</p:accordionPanel>
+	</ui:define>
+</ui:composition>
+</html>

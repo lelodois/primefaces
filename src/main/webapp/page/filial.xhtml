@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "htth://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:define name="body">
+		<h:form id="filial">
+			<p:growl autoUpdate="true" globalOnly="false"/>
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:outputLabel value="Código: " for="txtCodigo" />
+				<p:inputText id="txtCodigo" value="#{beanFilial.model.codigo}" required="true" readonly="true">
+					<f:passThroughAttribute name="type" value="number" />
+				</p:inputText>
+				<p:outputLabel value="Nome: " for="txtNome" />
+				<p:inputText id="txtNome" value="#{beanFilial.model.nome}" required="true" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:spacer/>
+				<p:commandButton value="Salvar" icon="fa fa-save" action="#{beanFilial.save()}" update=":tableModel" />
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

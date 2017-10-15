@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="library-css" name="estilo.css" />
+</h:head>
+<h:body>
+	<div id="header">
+		<h:form id="menu" rendered="#{usuarioPrincipal != null}">
+			<p:toolbar>
+				<p:toolbarGroup align="left">
+					<p:commandButton value="Comprador" action="#{beanLinks.toComprador}"  icon="fa fa-shopping-cart"/>
+					<p:commandButton value="Filial" action="#{beanLinks.toFilial}" icon="fa fa-angellist" />
+					<p:commandButton value="Fornecedor" action="#{beanLinks.toFornecedor}" icon="fa fa-futbol-o" />
+					<p:commandButton value="Produto" action="#{beanLinks.toProduto}" icon="fa fa-diamond" />
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:commandButton value="#{usuarioPrincipal.email}" action="#{beanLogin.logout}" icon="fa fa-user" />
+					<p:commandButton action="#{beanLogin.logout}" icon="fa fa-power-off" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+	</div>
+	<div id="body" style="margin-top: 10px;">
+		<p:fieldset>
+			<ui:insert name="body">
+			</ui:insert>
+		</p:fieldset>
+	</div>
+	<div id="footer">
+		<div style="margin-top: 10px;">
+			<h:form id="tableModel">
+				<ui:param name="list" value="#{beanTableModels.listAllModel()}" />
+				<p:dataTable value="#{list}" var="model" rendered="#{list != null}">
+					<f:facet name="header">Itens existentes</f:facet>
+					<p:column headerText="Ações" style="width: 10%">
+						<p:commandButton icon="fa fa-trash" action="#{beanTableModels.remove(model)}" update=":tableModel"
+							process=":tableModel">
+							<p:confirm header="Confirmação" message="Deseja excluir este item?" icon="fa-flash" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Código">
+						<p:outputLabel value="#{model.codigo}" />
+					</p:column>
+					<p:column headerText="Nome">
+						<p:outputLabel value="#{model.nome}" />
+					</p:column>
+					<p:column headerText="Data de cadastro">
+						<p:outputLabel value="#{model.dataCadastro}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="America/Sao_Paulo" />
+						</p:outputLabel>
+					</p:column>
+				</p:dataTable>
+				<p:confirmDialog global="true" showEffect="fade">
+					<p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" icon="fa fa-stop" />
+					<p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" icon="fa fa-play" />
+				</p:confirmDialog>
+			</h:form>
+		</div>
+		<div align="right">
+			<p:panel rendered="#{usuarioPrincipal != null}">
+				<h:outputText value="Tempo restante: " rendered="#{usuarioPrincipal != null}" />
+				<h:outputText value="#{tempoRestanteSessao}" rendered="#{usuarioPrincipal != null}">
+					<f:convertDateTime pattern="mm:ss" timeZone="America/Sao_Paulo" />
+				</h:outputText>
+			</p:panel>
+		</div>
+	</div>
+</h:body>
+</html>

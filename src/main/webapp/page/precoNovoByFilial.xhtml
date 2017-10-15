@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta charset="UTF-8"/>
+</h:head>
+<h:body>
+	<h:form id="precoByFilial">
+		<p:dataTable value="#{beanPoupupNovoPreco.precos}" var="produtoPrecoIndex" editable="true" editMode="cell" widgetVar="precosVar">
+			<p:column headerText="Vigência" style="width: 30%">
+				<p:outputLabel value="#{produtoPrecoIndex.inicioVigencia}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+				</p:outputLabel> - 
+				<p:outputLabel value="#{produtoPrecoIndex.fimVigencia}">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
+				</p:outputLabel>
+			</p:column>
+			<p:column headerText="Filial">
+				<p:outputLabel value="#{produtoPrecoIndex.produtoFilial.filial.nome}" />
+			</p:column>
+			<p:column headerText="Preço">
+				<p:cellEditor>
+					<f:facet name="output"><h:outputText value="#{produtoPrecoIndex.preco}" /></f:facet>
+					<f:facet name="input"><p:spinner value="#{produtoPrecoIndex.preco}" min="0" max="999" maxlength="8" /></f:facet>
+				</p:cellEditor>
+			</p:column>
+		</p:dataTable>
+		<p:panelGrid columns="2" styleClass="ui-noborder">
+			<p:commandButton value="Salvar" actionListener="#{beanPoupupNovoPreco.adicionarPrecoByFilial}" process=":precoByFilial" update="@none"/>
+		</p:panelGrid>
+	</h:form>
+</h:body>
+</html>

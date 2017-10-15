@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition template="template.xhtml" xmlns:p="http://primefaces.org/ui">
+	<ui:define name="body">
+		<h:form id="login">
+			<p:growl globalOnly="false" autoUpdate="true" />
+			<p:panel style="text-align:rigth">
+				<p:inputText id="txtLogin" value="#{beanLogin.comprador.email}" required="true" />
+				<p:spacer width="10" />
+				<h:inputSecret id="txtUserPassword" value="#{beanLogin.comprador.password}" required="true" />
+				<p:spacer width="10" />
+				<p:commandButton icon="fa fa-play" action="#{beanLogin.login()}" update="@form" process="@form" />
+			</p:panel>
+			<p:feedReader value="http://rss.news.yahoo.com/rss/sports" var="feed">
+				<h:outputText value="#{feed.title}" style="font-weight: bold;display:block" />
+				<p:spacer />
+				<h:outputText value="#{feed.description.value}" escape="false" />
+				<p:separator />
+			</p:feedReader>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:ui="http://xmlns.jcp.org/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<ui:composition template="template.xhtml">
+	<ui:define name="body">
+		<h:form id="comprador">
+			<p:growl autoUpdate="true" globalOnly="false"/>
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:outputLabel value="Código: " for="txtCodigo" />
+				<p:inputText id="txtCodigo" value="#{beanComprador.model.codigo}" required="true"  readonly="true">
+					<f:passThroughAttribute name="type" value="number" />
+				</p:inputText>
+				<p:outputLabel value="Nome: " for="txtNome" />
+				<p:inputText id="txtNome" value="#{beanComprador.model.nome}" required="true" />
+				<p:outputLabel value="Email: " for="txtEmail" />
+				<p:inputText id="txtEmail" value="#{beanComprador.model.email}" required="true">
+					<f:passThroughAttribute name="type" value="email" />
+				</p:inputText>
+				<p:outputLabel value="Senha: " for="txtPassword" />
+				<p:password id="txtPassword" value="#{beanComprador.model.password}" required="true" feedback="true" />
+				<p:outputLabel value="Ranking:" for="raking"/>
+				<p:rating id="raking" value="#{beanComprador.model.rating}" />
+			</p:panelGrid>
+			<p:panelGrid columns="2" styleClass="ui-noborder">
+				<p:spacer />
+				<p:commandButton value="Salvar" icon="fa fa-save" action="#{beanComprador.save()}" update=":comprador :tableModel"
+						process="@form" />
+			</p:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
