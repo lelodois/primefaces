@@ -11,7 +11,7 @@
 	</application>
 
 	<lifecycle>
-		<phase-listener>br.com.lelo.precojsf.commons.PhasesListener</phase-listener>
-		<phase-listener>br.com.lelo.precojsf.commons.LoginPhasesListener</phase-listener>
+		<phase-listener>br.com.lelo.primefaces.commons.PhasesListener</phase-listener>
+		<phase-listener>br.com.lelo.primefaces.commons.LoginPhasesListener</phase-listener>
 	</lifecycle>
 </faces-config>
